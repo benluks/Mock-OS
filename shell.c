@@ -20,7 +20,7 @@ char * read_line() {
 return line;
 }
 
-int main(void) {
+int shellUI(void) {
     
     printf("\n");
     printf("Welcome to benShell\n");

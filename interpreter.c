@@ -88,7 +88,9 @@ void run(char* filename) {
     
 }
 
-void interpret(char * line) {
+ 
+
+int interpret(char * line) {
     char** words = parse_input(line);
     
     if (strcmp(words[0], "quit") == 0) {
@@ -97,13 +99,39 @@ void interpret(char * line) {
     } 
     else if (strcmp(words[0], "help") == 0) {
         help();
-    } else if (strcmp(words[0], "set") == 0) {
-        set(words[1], words[2]);
-    } else if (strcmp(words[0], "print") == 0) {
+    } 
+    else if (strcmp(words[0], "set") == 0) 
+    // reconstruct broken string 
+    {
+        
+        char * temp = malloc(64 * sizeof(char));
+        strcpy(temp, words[2]);
+        char space[2] = {' '};
+
+        int i = 3;
+
+        while (words[i] != NULL) {
+            strcat(temp, space);
+            strcat(temp, words[i]);
+            i++;
+        }
+        
+        set(words[1], temp);
+        free(temp);
+     
+    } 
+    
+    else if (strcmp(words[0], "print") == 0) {
         print(words[1]);
     } 
     else if (strcmp(words[0], "run") == 0) {
         run(words[1]);
-    } else printf("Command '%s' does not exist.\n", words[0]);
+    } else if (strcmp(words[0], "exec") == 0) {
+        return 0;
+    } else {
+        printf("Command '%s' does not exist.\n", words[0]);
+        return 1;
+    }
     free(words);
+    return 0;
 }
